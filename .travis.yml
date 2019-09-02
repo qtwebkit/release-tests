@@ -21,41 +21,63 @@ addons:
       - ninja
       - hunspell
 
-env: PATH=${TRAVIS_BUILD_DIR}/recipes:${TRAVIS_BUILD_DIR}/bin:${PATH}
+env:
+  global:
+    QT_VERSION=5.13.0
+    QT_INSTALL_DIR=~/Qt
 
 matrix:
   include:
   - os: osx
     osx_image: xcode10.1
     install:
-      - QT_CI_PACKAGES=qt.qt5.5130.clang_64 travis_wait install-qt-online 5.13.0 && source qt-5.13.0.env && qmake -version && test "$(qmake -query QT_VERSION)" = "5.13.0"
-      - install-qtwebkit
+      - ./install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} qtbase qtdeclarative qtlocation qtmultimedia qtsensors qtwebchannel
+      - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/clang_64"
+      - ./install-qtwebkit
     before_script:
+      - $QTDIR/bin/qmake -query
       - export CMAKE_ARGS="-G Ninja"
-      - find Qt -name '*.dylib*' | sort
-      - find Qt -name 'QtWeb*' | sort
-      - find Qt -maxdepth 3 | sort
-      - du -hs Qt
+      - find $QTDIR -name '*.dylib*' | sort
+      - find $QTDIR -name 'QtWeb*' | sort
+      - find $QTDIR -maxdepth 3 | sort
+      - du -hs $QTDIR
   - os: windows
+    env:
+      QT_INSTALL_DIR=C:/Qt
+
+    before_install:
+      # Disable unnecessary background services which tend to consume
+      # a lot of resources
+      - powershell -Command 'Set-MpPreference -DisableRealtimeMonitoring $true'
+      - powershell -Command 'Set-MpPreference -DisableArchiveScanning $true'
+      - powershell -Command 'Set-MpPreference -DisableBehaviorMonitoring $true'
+      - powershell -Command 'sc.exe config TrustedInstaller start=disabled; sc.exe stop TrustedInstaller'
+      - powershell -Command 'sc.exe config wuauserv start=disabled; sc.exe stop wuauserv'
+      - powershell -Command 'Add-MpPreference -ExclusionPath C:\'
+      - powershell -Command 'Add-MpPreference -ExclusionProcess cmake.exe'
+      - powershell -Command 'Add-MpPreference -ExclusionProcess cl.exe'
+      - powershell -Command 'Add-MpPreference -ExclusionProcess link.exe'
     install:
       - choco install 7zip.commandline ninja
-      - QT_CI_PACKAGES=qt.qt5.5130.win64_msvc2017_64 travis_wait install-qt-online 5.13.0 && source qt-5.13.0.env && qmake -version && test "$(qmake -query QT_VERSION)" = "5.13.0"
-      - install-qtwebkit
+      - ./install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} --toolchain win64_msvc2017_64 qtbase qtdeclarative qtlocation qtmultimedia qtsensors qtwebchannel
+      - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/msvc2017_64"
+      - ./install-qtwebkit
     before_script:
-      - find Qt -name '*.dll*' | sort
-      - find Qt -name 'QtWeb*' | sort
-      - find Qt -maxdepth 3 | sort
-      - du -hs Qt
+      - find $QTDIR -name '*.dll*' | sort
+      - find $QTDIR -name 'QtWeb*' | sort
+      - find $QTDIR -maxdepth 3 | sort
+      - du -hs $QTDIR
   - os: linux
     install:
-      - QT_CI_PACKAGES=qt.qt5.5130.gcc_64 travis_wait install-qt 5.13.0 && source qt-5.13.0.env && qmake -version && test "$(qmake -query QT_VERSION)" = "5.13.0"
-      - install-qtwebkit
+      - ./install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} qtbase qtdeclarative qtlocation qtmultimedia qtsensors qtwebchannel
+      - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/gcc_64"
+      - ./install-qtwebkit
     before_script:
       - export CMAKE_ARGS="-G Ninja"
-      - find Qt -name '*.so*' | sort
-      - find Qt -name 'QtWeb*' | sort
-      - find Qt -maxdepth 3 | sort
-      - du -hs Qt
+      - find $QTDIR -name '*.so*' | sort
+      - find $QTDIR -name 'QtWeb*' | sort
+      - find $QTDIR -maxdepth 3 | sort
+      - du -hs $QTDIR
 
 script:
   - git clone --depth 1 https://github.com/OtterBrowser/otter-browser.git
