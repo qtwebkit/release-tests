@@ -1,0 +1,64 @@
+language: cpp
+compiler: gcc
+sudo: required
+dist: bionic
+git:
+  depth: 3
+
+addons:
+  apt:
+    packages:
+      - p7zip-full
+      - ninja-build
+      - libhunspell-dev
+      - libgl1-mesa-dev
+      - libgstreamer-plugins-base1.0-0
+      - libpulse-mainloop-glib0
+  homebrew:
+    update: true
+    packages:
+      - p7zip
+      - ninja
+      - hunspell
+
+env: PATH=${TRAVIS_BUILD_DIR}/recipes:${TRAVIS_BUILD_DIR}/bin:${PATH}
+
+matrix:
+  include:
+  - os: osx
+    osx_image: xcode10.1
+    install:
+      - QT_CI_PACKAGES=qt.qt5.5130.clang_64 travis_wait install-qt-online 5.13.0 && source qt-5.13.0.env && qmake -version && test "$(qmake -query QT_VERSION)" = "5.13.0"
+      - install-qtwebkit
+    before_script:
+      - export CMAKE_ARGS="-G Ninja"
+      - find Qt -name '*.dylib*' | sort
+      - find Qt -name 'QtWeb*' | sort
+      - find Qt -maxdepth 3 | sort
+      - du -hs Qt
+  - os: windows
+    install:
+      - choco install 7zip.commandline ninja
+      - QT_CI_PACKAGES=qt.qt5.5130.win64_msvc2017_64 travis_wait install-qt-online 5.13.0 && source qt-5.13.0.env && qmake -version && test "$(qmake -query QT_VERSION)" = "5.13.0"
+      - install-qtwebkit
+    before_script:
+      - find Qt -name '*.dll*' | sort
+      - find Qt -name 'QtWeb*' | sort
+      - find Qt -maxdepth 3 | sort
+      - du -hs Qt
+  - os: linux
+    install:
+      - QT_CI_PACKAGES=qt.qt5.5130.gcc_64 travis_wait install-qt 5.13.0 && source qt-5.13.0.env && qmake -version && test "$(qmake -query QT_VERSION)" = "5.13.0"
+      - install-qtwebkit
+    before_script:
+      - export CMAKE_ARGS="-G Ninja"
+      - find Qt -name '*.so*' | sort
+      - find Qt -name 'QtWeb*' | sort
+      - find Qt -maxdepth 3 | sort
+      - du -hs Qt
+
+script:
+  - git clone --depth 1 https://github.com/OtterBrowser/otter-browser.git
+  - mkdir otter-browser-build
+  - cmake -Botter-browser-build -Hotter-browser -DQt5_DIR=$QTDIR/lib/cmake/Qt5 $CMAKE_ARGS
+  - cmake --build otter-browser-build --config Release
