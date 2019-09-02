@@ -76,5 +76,5 @@ matrix:
 script:
   - git clone --depth 1 https://github.com/OtterBrowser/otter-browser.git
   - mkdir otter-browser-build
-  - cmake -Botter-browser-build -Hotter-browser -DQt5_DIR=$QTDIR/lib/cmake/Qt5 $CMAKE_ARGS
+  - cmake -Botter-browser-build -Hotter-browser -DCMAKE_PREFIX_PATH=$QTDIR $CMAKE_ARGS
   - cmake --build otter-browser-build --config Release
