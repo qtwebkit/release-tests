@@ -70,7 +70,7 @@ matrix:
       - du -hs $QTDIR
   - os: linux
     install:
-      - ./install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} ${QT_MODULES}
+      - ./install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} ${QT_MODULES} icu
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/gcc_64"
       - ./install-qtwebkit
     before_script:
