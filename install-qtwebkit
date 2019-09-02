@@ -1,7 +1,5 @@
 #!/bin/bash -e
 
-QT_CI_DOWNLOADER=${QT_CI_DOWNLOADER:-"wget -c -N"}
-
 UNAME=$(uname)
 if [ "$UNAME" = "Darwin" ]; then
   DOWNLOAD_URL="http://download.qt.io/snapshots/ci/qtwebkit/5.212/1563413169/qtwebkit/qtwebkit-MacOS-MacOS_10_13-Clang-MacOS-MacOS_10_13-X86_64.7z"
@@ -19,9 +17,10 @@ ARCHIVE=$(basename $DOWNLOAD_URL)
 pushd $QTDIR/$COMPILER
 
 echo Downloading QtWebKit
-${QT_CI_DOWNLOADER} ${DOWNLOAD_URL} || exit 1
+curl --progress-bar -L -o $ARCHIVE ${DOWNLOAD_URL} || exit 1
 
 echo Installing QtWebKit
 7z x $ARCHIVE
+rm -f $ARCHIVE
 
 popd
