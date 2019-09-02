@@ -25,13 +25,14 @@ env:
   global:
     QT_VERSION=5.13.0
     QT_INSTALL_DIR=~/Qt
+    QT_MODULES="qtbase qtdeclarative qtlocation qtmultimedia qtsensors qtwebchannel qtsvg"
 
 matrix:
   include:
   - os: osx
     osx_image: xcode10.1
     install:
-      - ./install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} qtbase qtdeclarative qtlocation qtmultimedia qtsensors qtwebchannel
+      - ./install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} ${QT_MODULES}
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/clang_64"
       - ./install-qtwebkit
     before_script:
@@ -59,7 +60,7 @@ matrix:
       - powershell -Command 'Add-MpPreference -ExclusionProcess link.exe'
     install:
       - choco install 7zip.commandline ninja
-      - ./install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} --toolchain win64_msvc2017_64 qtbase qtdeclarative qtlocation qtmultimedia qtsensors qtwebchannel
+      - ./install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} --toolchain win64_msvc2017_64 ${QT_MODULES}
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/msvc2017_64"
       - ./install-qtwebkit
     before_script:
@@ -69,7 +70,7 @@ matrix:
       - du -hs $QTDIR
   - os: linux
     install:
-      - ./install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} qtbase qtdeclarative qtlocation qtmultimedia qtsensors qtwebchannel
+      - ./install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} ${QT_MODULES}
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/gcc_64"
       - ./install-qtwebkit
     before_script:
