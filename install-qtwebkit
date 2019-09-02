@@ -1,12 +1,13 @@
 #!/bin/bash -e
 
 UNAME=$(uname)
+BASE_URL="http://download.qt.io/snapshots/ci/qtwebkit/5.212/1563413169/qtwebkit"
 if [ "$UNAME" = "Darwin" ]; then
-  DOWNLOAD_URL="http://download.qt.io/snapshots/ci/qtwebkit/5.212/1563413169/qtwebkit/qtwebkit-MacOS-MacOS_10_13-Clang-MacOS-MacOS_10_13-X86_64.7z"
+  DOWNLOAD_URL="$BASE_URL/qtwebkit-MacOS-MacOS_10_13-Clang-MacOS-MacOS_10_13-X86_64.7z"
 elif [ "$UNAME" = "Linux" ]; then
-  DOWNLOAD_URL="http://download.qt.io/snapshots/ci/qtwebkit/5.212/1563413169/qtwebkit/qtwebkit-Linux-RHEL_7_6-GCC-Linux-RHEL_7_6-X86_64.7z"
+  DOWNLOAD_URL="$BASE_URL/qtwebkit-Linux-RHEL_7_6-GCC-Linux-RHEL_7_6-X86_64.7z"
 elif [ "${UNAME:0:4}" = "MSYS" -o "${UNAME:0:5}" = "MINGW" ]; then
-  DOWNLOAD_URL="http://download.qt.io/snapshots/ci/qtwebkit/5.212/1563413169/qtwebkit/qtwebkit-Windows-Windows_10-MSVC2015-Windows-Windows_10-X86_64.7z"
+  DOWNLOAD_URL="$BASE_URL/qtwebkit-Windows-Windows_10-MSVC2017-Windows-Windows_10-X86_64.7z"
 else
   echo "Unsupported system." >&2
   exit 1
