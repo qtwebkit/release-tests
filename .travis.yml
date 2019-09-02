@@ -57,8 +57,8 @@ matrix:
       - powershell -Command 'Add-MpPreference -ExclusionProcess link.exe'
     install:
       - choco install 7zip.commandline ninja
-      - ./install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} --toolchain win64_msvc2017_64 ${QT_MODULES}
-      - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/msvc2017_64"
+      - ./install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} --toolchain win32_msvc2017 ${QT_MODULES}
+      - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/msvc2017"
       - ./install-qtwebkit
     before_script:
       - du -hs $QTDIR

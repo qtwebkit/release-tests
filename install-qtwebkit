@@ -7,7 +7,7 @@ if [ "$UNAME" = "Darwin" ]; then
 elif [ "$UNAME" = "Linux" ]; then
   DOWNLOAD_URL="$BASE_URL/qtwebkit-Linux-RHEL_7_6-GCC-Linux-RHEL_7_6-X86_64.7z"
 elif [ "${UNAME:0:4}" = "MSYS" -o "${UNAME:0:5}" = "MINGW" ]; then
-  DOWNLOAD_URL="$BASE_URL/qtwebkit-Windows-Windows_10-MSVC2017-Windows-Windows_10-X86_64.7z"
+  DOWNLOAD_URL="$BASE_URL/qtwebkit-Windows-Windows_10-MSVC2017-Windows-Windows_10-X86.7z"
 else
   echo "Unsupported system." >&2
   exit 1
@@ -15,7 +15,7 @@ fi
 
 ARCHIVE=$(basename $DOWNLOAD_URL)
 
-pushd $QTDIR/$COMPILER
+pushd $QTDIR
 
 echo Downloading QtWebKit
 curl --progress-bar -L -o $ARCHIVE ${DOWNLOAD_URL} || exit 1
