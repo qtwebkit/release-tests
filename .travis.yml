@@ -36,12 +36,9 @@ matrix:
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/clang_64"
       - ./install-qtwebkit
     before_script:
+      - du -hs $QTDIR
       - $QTDIR/bin/qmake -query
       - export CMAKE_ARGS="-G Ninja"
-      - find $QTDIR -name '*.dylib*' | sort
-      - find $QTDIR -name 'QtWeb*' | sort
-      - find $QTDIR -maxdepth 3 | sort
-      - du -hs $QTDIR
   - os: windows
     env:
       QT_INSTALL_DIR=C:/Qt
@@ -64,21 +61,17 @@ matrix:
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/msvc2017_64"
       - ./install-qtwebkit
     before_script:
-      - find $QTDIR -name '*.dll*' | sort
-      - find $QTDIR -name 'QtWeb*' | sort
-      - find $QTDIR -maxdepth 3 | sort
       - du -hs $QTDIR
+      - $QTDIR/bin/qmake -query
   - os: linux
     install:
       - ./install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} ${QT_MODULES} icu
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/gcc_64"
       - ./install-qtwebkit
     before_script:
-      - export CMAKE_ARGS="-G Ninja"
-      - find $QTDIR -name '*.so*' | sort
-      - find $QTDIR -name 'QtWeb*' | sort
-      - find $QTDIR -maxdepth 3 | sort
       - du -hs $QTDIR
+      - $QTDIR/bin/qmake -query
+      - export CMAKE_ARGS="-G Ninja"
 
 script:
   - git clone --depth 1 https://github.com/OtterBrowser/otter-browser.git
