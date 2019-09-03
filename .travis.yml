@@ -34,7 +34,7 @@ matrix:
     install:
       - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} ${QT_MODULES} qtmacextras
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/clang_64"
-      - ./install-qtwebkit
+      - ./install-qtwebkit MacOS_10_13-Clang-MacOS-MacOS_10_13-X86_64
     before_script:
       - du -hs $QTDIR
       - $QTDIR/bin/qmake -query
@@ -42,7 +42,6 @@ matrix:
   - os: windows
     env:
       QT_INSTALL_DIR=C:/Qt
-
     before_install:
       # Disable unnecessary background services which tend to consume
       # a lot of resources
@@ -59,7 +58,31 @@ matrix:
       - choco install 7zip.commandline ninja
       - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} --toolchain win32_msvc2017 ${QT_MODULES} qtwinextras
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/msvc2017"
-      - ./install-qtwebkit
+      - ./install-qtwebkit Windows_10-MSVC2017-Windows-Windows_10-X86
+    before_script:
+      - du -hs $QTDIR
+      - $QTDIR/bin/qmake -query
+  - os: windows
+    env:
+      CMAKE_ARGS="-DCMAKE_GENERATOR_PLATFORM=x64"
+      QT_INSTALL_DIR=C:/Qt
+    before_install:
+      # Disable unnecessary background services which tend to consume
+      # a lot of resources
+      - powershell -Command 'Set-MpPreference -DisableRealtimeMonitoring $true'
+      - powershell -Command 'Set-MpPreference -DisableArchiveScanning $true'
+      - powershell -Command 'Set-MpPreference -DisableBehaviorMonitoring $true'
+      - powershell -Command 'sc.exe config TrustedInstaller start=disabled; sc.exe stop TrustedInstaller'
+      - powershell -Command 'sc.exe config wuauserv start=disabled; sc.exe stop wuauserv'
+      - powershell -Command 'Add-MpPreference -ExclusionPath C:\'
+      - powershell -Command 'Add-MpPreference -ExclusionProcess cmake.exe'
+      - powershell -Command 'Add-MpPreference -ExclusionProcess cl.exe'
+      - powershell -Command 'Add-MpPreference -ExclusionProcess link.exe'
+    install:
+      - choco install 7zip.commandline ninja
+      - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} --toolchain win64_msvc2017_64 ${QT_MODULES} qtwinextras
+      - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/msvc2017_64"
+      - ./install-qtwebkit Windows_10-MSVC2017-Windows-Windows_10-X86_64
     before_script:
       - du -hs $QTDIR
       - $QTDIR/bin/qmake -query
@@ -67,7 +90,7 @@ matrix:
     install:
       - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} ${QT_MODULES} icu
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/gcc_64"
-      - ./install-qtwebkit
+      - ./install-qtwebkit RHEL_7_6-GCC-Linux-RHEL_7_6-X86_64
     before_script:
       - du -hs $QTDIR
       - $QTDIR/bin/qmake -query
