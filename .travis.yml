@@ -31,6 +31,8 @@ matrix:
   include:
   - os: osx
     osx_image: xcode10.1
+    env:
+      CMAKE_GENERATOR=Ninja
     install:
       - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} ${QT_MODULES} qtmacextras
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/clang_64"
@@ -38,9 +40,9 @@ matrix:
     before_script:
       - du -hs $QTDIR
       - $QTDIR/bin/qmake -query
-      - export CMAKE_ARGS="-G Ninja"
   - os: windows
     env:
+      CMAKE_GENERATOR="Visual Studio 15 2017"
       QT_INSTALL_DIR=C:/Qt
     before_install:
       # Disable unnecessary background services which tend to consume
@@ -64,7 +66,7 @@ matrix:
       - $QTDIR/bin/qmake -query
   - os: windows
     env:
-      CMAKE_ARGS="-DCMAKE_GENERATOR_PLATFORM=x64"
+      CMAKE_GENERATOR="Visual Studio 15 2017 Win64"
       QT_INSTALL_DIR=C:/Qt
     before_install:
       # Disable unnecessary background services which tend to consume
@@ -86,7 +88,38 @@ matrix:
     before_script:
       - du -hs $QTDIR
       - $QTDIR/bin/qmake -query
+  - os: windows
+    env:
+      CMAKE_GENERATOR="MSYS Makefiles"
+      CMAKE_ARGS="-DCMAKE_MAKE_PROGRAM=mingw32-make"
+      QT_INSTALL_DIR=C:/Qt
+    before_install:
+      # Disable unnecessary background services which tend to consume
+      # a lot of resources
+      - powershell -Command 'Set-MpPreference -DisableRealtimeMonitoring $true'
+      - powershell -Command 'Set-MpPreference -DisableArchiveScanning $true'
+      - powershell -Command 'Set-MpPreference -DisableBehaviorMonitoring $true'
+      - powershell -Command 'sc.exe config TrustedInstaller start=disabled; sc.exe stop TrustedInstaller'
+      - powershell -Command 'sc.exe config wuauserv start=disabled; sc.exe stop wuauserv'
+      - powershell -Command 'Add-MpPreference -ExclusionPath C:\'
+      - powershell -Command 'Add-MpPreference -ExclusionProcess cmake.exe'
+      - powershell -Command 'Add-MpPreference -ExclusionProcess g++.exe'
+      - powershell -Command 'Add-MpPreference -ExclusionProcess ld.exe'
+    install:
+      - choco install 7zip.commandline ninja
+      - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} --toolchain win32_mingw73 ${QT_MODULES} qtwinextras
+      - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/mingw73_32"
+      - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version 7.3.0 win32_mingw730
+      - export PATH="$(cygpath -u ${QT_INSTALL_DIR})/Tools/mingw730_32/bin:$PATH"
+      - ./install-qtwebkit Windows_7-Mingw73-Windows-Windows_7-X86
+    before_script:
+      - du -hs $QTDIR
+      - $QTDIR/bin/qmake -query
+      - g++ -v
+      - mingw32-make --version
   - os: linux
+    env:
+      CMAKE_GENERATOR=Ninja
     install:
       - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} ${QT_MODULES} icu
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/gcc_64"
@@ -94,10 +127,9 @@ matrix:
     before_script:
       - du -hs $QTDIR
       - $QTDIR/bin/qmake -query
-      - export CMAKE_ARGS="-G Ninja"
 
 script:
   - git clone --depth 1 https://github.com/annulen/otter-browser.git -b getCreationTime
   - mkdir otter-browser-build
-  - cmake -Botter-browser-build -Hotter-browser -DCMAKE_PREFIX_PATH=$QTDIR $CMAKE_ARGS
+  - cmake -Botter-browser-build -Hotter-browser -DCMAKE_PREFIX_PATH=$QTDIR $CMAKE_ARGS -G "$CMAKE_GENERATOR"
   - cmake --build otter-browser-build --config Release
