@@ -49,7 +49,6 @@ matrix:
     before_install:
       - powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File windows_setup.ps1
     install:
-      - choco install 7zip.commandline
       - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} --toolchain win32_msvc2017 ${QT_MODULES} qtwinextras
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/msvc2017"
       - ./install-qtwebkit Windows_10-MSVC2017-Windows-Windows_10-X86
@@ -63,7 +62,6 @@ matrix:
     before_install:
       - powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File windows_setup.ps1
     install:
-      - choco install 7zip.commandline
       - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} --toolchain win64_msvc2017_64 ${QT_MODULES} qtwinextras
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/msvc2017_64"
       - ./install-qtwebkit Windows_10-MSVC2017-Windows-Windows_10-X86_64
@@ -78,7 +76,6 @@ matrix:
     before_install:
       - powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File windows_setup.ps1
     install:
-      - choco install 7zip.commandline
       - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} --toolchain win32_mingw73 ${QT_MODULES} qtwinextras
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/mingw73_32"
       - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version 7.3.0 win32_mingw730
