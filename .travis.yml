@@ -38,10 +38,14 @@ matrix:
     install:
       - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} ${QT_MODULES} qtmacextras
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/clang_64"
+      - export QT_QPA_PLATFORM_PLUGIN_PATH=$QTDIR/plugins
+      - export PATH="$QTDIR/bin:$PATH"
       - ./install-qtwebkit MacOS_10_13-Clang-MacOS-MacOS_10_13-X86_64
     before_script:
       - du -hs $QTDIR
-      - $QTDIR/bin/qmake -query
+      - qmake -query
+    script:
+      - ./build-phantomjs.sh
   - os: windows
     env:
       CMAKE_GENERATOR="Visual Studio 15 2017"
@@ -49,12 +53,16 @@ matrix:
     before_install:
       - powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File windows_setup.ps1
     install:
+      - choco install jom
       - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} --toolchain win32_msvc2017 ${QT_MODULES} qtwinextras
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/msvc2017"
+      - export PATH="$(cygpath -u ${QTDIR})/bin:$PATH"
       - ./install-qtwebkit Windows_10-MSVC2017-Windows-Windows_10-X86
     before_script:
       - du -hs $QTDIR
-      - $QTDIR/bin/qmake -query
+      - qmake -query
+    script:
+        - VS_ARCH=x86 ./build-phantomjs-vs.bat
   - os: windows
     env:
       CMAKE_GENERATOR="Visual Studio 15 2017 Win64"
@@ -62,12 +70,16 @@ matrix:
     before_install:
       - powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File windows_setup.ps1
     install:
+      - choco install jom
       - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} --toolchain win64_msvc2017_64 ${QT_MODULES} qtwinextras
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/msvc2017_64"
+      - export PATH="$(cygpath -u ${QTDIR})/bin:$PATH"
       - ./install-qtwebkit Windows_10-MSVC2017-Windows-Windows_10-X86_64
     before_script:
       - du -hs $QTDIR
-      - $QTDIR/bin/qmake -query
+      - qmake -query
+    script:
+        - VS_ARCH=amd64 ./build-phantomjs-vs.bat
   - os: windows
     env:
       CMAKE_GENERATOR="MSYS Makefiles"
@@ -78,24 +90,32 @@ matrix:
     install:
       - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} --toolchain win32_mingw73 ${QT_MODULES} qtwinextras
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/mingw73_32"
+      - export PATH="$(cygpath -u ${QTDIR})/bin:$PATH"
       - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version 7.3.0 win32_mingw730
       - export PATH="$(cygpath -u ${QT_INSTALL_DIR})/Tools/mingw730_32/bin:$PATH"
       - ./install-qtwebkit Windows_7-Mingw73-Windows-Windows_7-X86
     before_script:
       - du -hs $QTDIR
-      - $QTDIR/bin/qmake -query
+      - qmake -query
       - g++ -v
       - mingw32-make --version
+    script:
+      - ls "C:/Qt/5.13.0/mingw73_32/lib/libQt5WebKitWidgets.a"
   - os: linux
     env:
       CMAKE_GENERATOR=Ninja
     install:
       - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} ${QT_MODULES} icu
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/gcc_64"
+      - export QT_QPA_PLATFORM_PLUGIN_PATH=$QTDIR/plugins
+      - export PATH="$QTDIR/bin:$PATH"
+      - export LD_LIBRARY_PATH=$QTDIR/lib
       - ./install-qtwebkit RHEL_7_6-GCC-Linux-RHEL_7_6-X86_64
     before_script:
       - du -hs $QTDIR
-      - $QTDIR/bin/qmake -query
+      - qmake -query
+    script:
+      - ./build-phantomjs.sh
 
 script:
   - ./build-otter.sh
