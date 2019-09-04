@@ -45,17 +45,7 @@ matrix:
       CMAKE_GENERATOR="Visual Studio 15 2017"
       QT_INSTALL_DIR=C:/Qt
     before_install:
-      # Disable unnecessary background services which tend to consume
-      # a lot of resources
-      - powershell -Command 'Set-MpPreference -DisableRealtimeMonitoring $true'
-      - powershell -Command 'Set-MpPreference -DisableArchiveScanning $true'
-      - powershell -Command 'Set-MpPreference -DisableBehaviorMonitoring $true'
-      - powershell -Command 'sc.exe config TrustedInstaller start=disabled; sc.exe stop TrustedInstaller'
-      - powershell -Command 'sc.exe config wuauserv start=disabled; sc.exe stop wuauserv'
-      - powershell -Command 'Add-MpPreference -ExclusionPath C:\'
-      - powershell -Command 'Add-MpPreference -ExclusionProcess cmake.exe'
-      - powershell -Command 'Add-MpPreference -ExclusionProcess cl.exe'
-      - powershell -Command 'Add-MpPreference -ExclusionProcess link.exe'
+      - powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File windows_setup.ps1
     install:
       - choco install 7zip.commandline
       - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} --toolchain win32_msvc2017 ${QT_MODULES} qtwinextras
@@ -69,17 +59,7 @@ matrix:
       CMAKE_GENERATOR="Visual Studio 15 2017 Win64"
       QT_INSTALL_DIR=C:/Qt
     before_install:
-      # Disable unnecessary background services which tend to consume
-      # a lot of resources
-      - powershell -Command 'Set-MpPreference -DisableRealtimeMonitoring $true'
-      - powershell -Command 'Set-MpPreference -DisableArchiveScanning $true'
-      - powershell -Command 'Set-MpPreference -DisableBehaviorMonitoring $true'
-      - powershell -Command 'sc.exe config TrustedInstaller start=disabled; sc.exe stop TrustedInstaller'
-      - powershell -Command 'sc.exe config wuauserv start=disabled; sc.exe stop wuauserv'
-      - powershell -Command 'Add-MpPreference -ExclusionPath C:\'
-      - powershell -Command 'Add-MpPreference -ExclusionProcess cmake.exe'
-      - powershell -Command 'Add-MpPreference -ExclusionProcess cl.exe'
-      - powershell -Command 'Add-MpPreference -ExclusionProcess link.exe'
+      - powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File windows_setup.ps1
     install:
       - choco install 7zip.commandline
       - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} --toolchain win64_msvc2017_64 ${QT_MODULES} qtwinextras
@@ -94,17 +74,7 @@ matrix:
       CMAKE_ARGS="-DCMAKE_MAKE_PROGRAM=mingw32-make"
       QT_INSTALL_DIR=C:/Qt
     before_install:
-      # Disable unnecessary background services which tend to consume
-      # a lot of resources
-      - powershell -Command 'Set-MpPreference -DisableRealtimeMonitoring $true'
-      - powershell -Command 'Set-MpPreference -DisableArchiveScanning $true'
-      - powershell -Command 'Set-MpPreference -DisableBehaviorMonitoring $true'
-      - powershell -Command 'sc.exe config TrustedInstaller start=disabled; sc.exe stop TrustedInstaller'
-      - powershell -Command 'sc.exe config wuauserv start=disabled; sc.exe stop wuauserv'
-      - powershell -Command 'Add-MpPreference -ExclusionPath C:\'
-      - powershell -Command 'Add-MpPreference -ExclusionProcess cmake.exe'
-      - powershell -Command 'Add-MpPreference -ExclusionProcess g++.exe'
-      - powershell -Command 'Add-MpPreference -ExclusionProcess ld.exe'
+      - powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File windows_setup.ps1
     install:
       - choco install 7zip.commandline
       - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} --toolchain win32_mingw73 ${QT_MODULES} qtwinextras
