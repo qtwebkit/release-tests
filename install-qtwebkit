@@ -3,7 +3,7 @@
 VARIANT=$1
 
 UNAME=$(uname)
-BASE_URL="http://download.qt.io/snapshots/ci/qtwebkit/5.212/1567427726/qtwebkit"
+BASE_URL="http://download.qt.io/snapshots/ci/qtwebkit/$QTWEBKIT_BRANCH/$QTWEBKIT_BUILD_NUMBER/qtwebkit"
 if [ "$UNAME" = "Darwin" ]; then
   DOWNLOAD_URL="$BASE_URL/qtwebkit-MacOS-$VARIANT.7z"
 elif [ "$UNAME" = "Linux" ]; then

@@ -24,6 +24,8 @@ addons:
 env:
   global:
     QT_VERSION=5.13.0
+    QTWEBKIT_BRANCH=5.212
+    QTWEBKIT_BUILD_NUMBER=1567427726
     QT_INSTALL_DIR=~/Qt
     QT_MODULES="qtbase qtdeclarative qtlocation qtmultimedia qtsensors qtwebchannel qtsvg"
 
