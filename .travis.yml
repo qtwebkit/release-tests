@@ -95,6 +95,7 @@ matrix:
       CMAKE_GENERATOR="MSYS Makefiles"
       CMAKE_ARGS="-DCMAKE_MAKE_PROGRAM=mingw32-make"
       QT_INSTALL_DIR=C:/Qt
+      MAKE=mingw32-make
     before_install:
       - powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File windows_setup.ps1
     install:
@@ -111,7 +112,7 @@ matrix:
       - mingw32-make --version
     script:
       - ./build-otter.sh
-      - ls "C:/Qt/5.13.0/mingw73_32/lib/libQt5WebKitWidgets.a"
+      - ./build-phantomjs.sh
   - name: "Linux x86_64"
     os: linux
     env:
