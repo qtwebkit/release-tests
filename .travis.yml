@@ -14,6 +14,7 @@ addons:
       - libgl1-mesa-dev
       - libgstreamer-plugins-base1.0-0
       - libpulse-mainloop-glib0
+      - python3-pip
   homebrew:
     update: true
     packages:
@@ -47,6 +48,7 @@ matrix:
       - du -hs $QTDIR
       - qmake -query
     script:
+      - ./build-pyqt5.sh
       - ./build-otter.sh
       - ./build-phantomjs.sh
   - name: "VS 2017 x86"
@@ -125,5 +127,6 @@ matrix:
       - du -hs $QTDIR
       - qmake -query
     script:
+      - ./build-pyqt5.sh
       - ./build-otter.sh
       - ./build-phantomjs.sh
