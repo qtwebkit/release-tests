@@ -28,6 +28,7 @@ env:
     QTWEBKIT_BUILD_NUMBER=1567427726
     QT_INSTALL_DIR=~/Qt
     QT_MODULES="qtbase qtdeclarative qtlocation qtmultimedia qtsensors qtwebchannel qtsvg"
+    HOST_N_CORES=2
 
 matrix:
   include:
