@@ -28,7 +28,7 @@ env:
     QTWEBKIT_BRANCH=5.212
     QTWEBKIT_BUILD_NUMBER=1568772611
     QT_INSTALL_DIR=~/Qt
-    QT_MODULES="qtbase qtdeclarative qtlocation qtmultimedia qtsensors qtwebchannel qtsvg"
+    QT_MODULES="qtbase qtdeclarative qtlocation qtmultimedia qtsensors qtwebchannel qtsvg qtxmlpatterns"
     HOST_N_CORES=2
 
 matrix:
@@ -51,6 +51,7 @@ matrix:
       - ./build-pyqt5.sh
       - ./build-otter.sh
       - ./build-phantomjs.sh
+      - ./build-examples.sh
   - name: "VS 2017 x86"
     os: windows
     env:
@@ -71,6 +72,7 @@ matrix:
     script:
       - ./build-otter.sh
       - VS_ARCH=x86 ./build-phantomjs-vs.bat
+      - VS_ARCH=x86 ./build-examples-vs.bat
   - name: "VS 2017 x86_64"
     os: windows
     env:
@@ -91,6 +93,7 @@ matrix:
     script:
       - ./build-otter.sh
       - VS_ARCH=amd64 ./build-phantomjs-vs.bat
+      - VS_ARCH=amd64 ./build-examples-vs.bat
   - name: "MinGW 7.3 x86"
     os: windows
     env:
@@ -116,6 +119,7 @@ matrix:
     script:
       - ./build-otter.sh
       - ./build-phantomjs.sh
+      - ./build-examples.sh
   - name: "Linux x86_64"
     os: linux
     env:
@@ -134,3 +138,4 @@ matrix:
       - ./build-pyqt5.sh
       - ./build-otter.sh
       - ./build-phantomjs.sh
+      - ./build-examples.sh
