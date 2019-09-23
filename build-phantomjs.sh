@@ -1,6 +1,5 @@
 #!/bin/sh -ex
 [ -z "$MAKE" ] && MAKE=make
-UNAME=$(uname)
 
 git clone --depth 1 https://github.com/annulen/phantomjs.git
 cd phantomjs
