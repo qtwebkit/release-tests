@@ -51,7 +51,6 @@ matrix:
       - ./build-pyqt5.sh
       - ./build-otter.sh
       - ./build-phantomjs.sh
-      - ./build-examples.sh
   - name: "VS 2017 x86"
     os: windows
     env:
