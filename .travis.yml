@@ -31,6 +31,19 @@ env:
     QT_MODULES="qtbase qtdeclarative qtlocation qtmultimedia qtsensors qtwebchannel qtsvg qtxmlpatterns"
     HOST_N_CORES=2
 
+before_deploy:
+  - sed -ie "s|TRAVIS_BUILD_NUMBER|${TRAVIS_BUILD_NUMBER}|" bintray.json
+
+deploy:
+  provider: bintray
+  user: annulen
+  key:
+    secure: X25VLRX1ONHi773zJXlq7oWVGB6KFBKX55Von3jOOAjjk91P6S9KAwLaYtKoI1dP7FHVLctV5ou595wG64dZsgoGG6+ZzWIwTDDegI+PbSg/gmZPDHF9ZBS2xFPNEgM8HbdDkkkJyN72/SM6cPmJ6yiXoh2F2/s+yT5+7O5TQhGn9P0KEAM7lFACX0CJfgVGDWJqXf6YmYyYvVT2kwNsFdAMV8JlQmLGJDo4xHIOY2ucVWgPRMVZi7SUejC86BflpYytIRRa6crAdSMJX6lWqiZTLOlx/jJRa44Pl5fJE4urjcHAsFOrV2dKPfTVLAekUutVXAwviZ/mRfAAJHSY/2+2GubxjeE8+uQRmkBX2kZ5C1Oim8jiMuH2vVOF80VqKgwjddV05MYtxz5MPnCK1OFY4PpoP03MJQocwnwztk3sAa8fqm4IJNmIU7ma3zio8mR10s+dFWZVACHRV8pX3HbY8OrOxt4vCnJP+2HsOhzzzwfcdTSQBXi+fueb2dFfeA/kOp6HfMMUJZyu10JESOCSEg/CX0FiGpBaPkmNVOjDxXIavJ+IH2NcDmlCVEKK7AK/e6KEyy1W3e9QAjGRAGsEltymsGP9LDdCpO8TQ0PIG0go5PKSH75+Adq9vXc5tylqExAomxxmGnSk36bdqCGF14Rej63i5D+gHwm7xDY=
+  file: bintray.json
+  edge: true # opt in to dpl v2
+  on:
+    condition: $DEPLOY = 1
+
 matrix:
   include:
   - name: "macOS x86_64"
@@ -100,6 +113,7 @@ matrix:
       CMAKE_ARGS="-DCMAKE_MAKE_PROGRAM=mingw32-make"
       QT_INSTALL_DIR=C:/Qt
       MAKE=mingw32-make
+      DEPLOY=1
     before_install:
       - powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File windows_setup.ps1
     install:
@@ -123,6 +137,7 @@ matrix:
     os: linux
     env:
       CMAKE_GENERATOR=Ninja
+      DEPLOY=1
     install:
       - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} ${QT_MODULES} icu
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/gcc_64"
