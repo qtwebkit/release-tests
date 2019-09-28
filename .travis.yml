@@ -116,6 +116,7 @@ matrix:
       DEPLOY=1
     before_install:
       - powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File windows_setup.ps1
+      - gem install bundler
     install:
       - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} --toolchain win32_mingw73 ${QT_MODULES} qtwinextras
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/mingw73_32"
