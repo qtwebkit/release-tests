@@ -24,12 +24,13 @@ addons:
 
 env:
   global:
-    QT_VERSION=5.13.1
-    QTWEBKIT_BRANCH=5.212
-    QTWEBKIT_BUILD_NUMBER=1568772611
-    QT_INSTALL_DIR=~/Qt
-    QT_MODULES="qtbase qtdeclarative qtlocation qtmultimedia qtsensors qtwebchannel qtsvg qtxmlpatterns"
-    HOST_N_CORES=2
+    - QT_VERSION=5.13.1
+    - QTWEBKIT_BRANCH=5.212
+    - QTWEBKIT_BUILD_NUMBER=1568772611
+    - QT_INSTALL_DIR=~/Qt
+    - QT_MODULES="qtbase qtdeclarative qtlocation qtmultimedia qtsensors qtwebchannel qtsvg qtxmlpatterns"
+    - HOST_N_CORES=2
+    - secure: BVQ+sHDicLY0tr9ECpn4UNU2lw0X6JaSSrJn6LgfZdoPd34fPSX2Sbx2y0TFJ9VLDX+8LOmOw1ZuNThF+OovonGHVCAmEJN+JRDCuyqgbYcwv/vpWLhwy4FtYc0oGIHHiof+V5afE9e4aReYSNHn8MlyVewc9Qx0xChrnjzAmi9r/szXnkY7JZFt8+cYXChbolxFYa4rJXATkuDmGwmmi2ROPSpmh/XWMIwH1Wmt9PoaZU4djlvlmt8RHNYa/BMejGZiaqDuzzdPjVki6e9CKuzZ5pVTvK5vHHNbrwkAU2vLMWpiDrfSBM89evZ3ujPNHe9zG1SlLBmeaWGayNIm5GXLScz7deMFu28cMXY0y+h2bZSPChqTqtNcfsBcou7ir/2HW572yem65UcVfXwE9KD8SsLKa1pJXzcY7MciWat0/QLILZuX2X4r9y5n2ZNNN8O7SXADjmAmmj/uKKTRML5UHGoE4lrk11fi02rlNi/Y6XApjBeFmZ3PIIHVpxqM4epHRMx6ioPGZBWJ2gc2rBLuDTYoyCvDpnxqiezcFrIhTnug/uxu0/f2tkhsSoWXzv3DnvA55yzMKbT6JWTJoQhrbA1/198vaH3+MixGfg6qEBXFyfrawWOCQuMS48QVtceZKxQUrPZ1a8kuAKPeApLVZCFGv8JiRIh+IdSwkL4=
 
 before_deploy:
   - sed -ie "s|TRAVIS_BUILD_NUMBER|${TRAVIS_BUILD_NUMBER}|" bintray.json
@@ -37,12 +38,13 @@ before_deploy:
 deploy:
   provider: bintray
   user: annulen
-  key:
-    secure: X25VLRX1ONHi773zJXlq7oWVGB6KFBKX55Von3jOOAjjk91P6S9KAwLaYtKoI1dP7FHVLctV5ou595wG64dZsgoGG6+ZzWIwTDDegI+PbSg/gmZPDHF9ZBS2xFPNEgM8HbdDkkkJyN72/SM6cPmJ6yiXoh2F2/s+yT5+7O5TQhGn9P0KEAM7lFACX0CJfgVGDWJqXf6YmYyYvVT2kwNsFdAMV8JlQmLGJDo4xHIOY2ucVWgPRMVZi7SUejC86BflpYytIRRa6crAdSMJX6lWqiZTLOlx/jJRa44Pl5fJE4urjcHAsFOrV2dKPfTVLAekUutVXAwviZ/mRfAAJHSY/2+2GubxjeE8+uQRmkBX2kZ5C1Oim8jiMuH2vVOF80VqKgwjddV05MYtxz5MPnCK1OFY4PpoP03MJQocwnwztk3sAa8fqm4IJNmIU7ma3zio8mR10s+dFWZVACHRV8pX3HbY8OrOxt4vCnJP+2HsOhzzzwfcdTSQBXi+fueb2dFfeA/kOp6HfMMUJZyu10JESOCSEg/CX0FiGpBaPkmNVOjDxXIavJ+IH2NcDmlCVEKK7AK/e6KEyy1W3e9QAjGRAGsEltymsGP9LDdCpO8TQ0PIG0go5PKSH75+Adq9vXc5tylqExAomxxmGnSk36bdqCGF14Rej63i5D+gHwm7xDY=
   file: bintray.json
   edge: true # opt in to dpl v2
   on:
     condition: $DEPLOY = 1
+
+after_deploy:
+  - ./bintray_upload.sh qa-${TRAVIS_JOB_NUMBER}-${TRAVIS_OS_NAME}.7z
 
 matrix:
   include:
