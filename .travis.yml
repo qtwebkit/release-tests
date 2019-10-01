@@ -44,7 +44,7 @@ deploy:
     condition: $DEPLOY = 1
 
 after_deploy:
-  - ./bintray_upload.sh qa-${TRAVIS_JOB_NUMBER}-${TRAVIS_OS_NAME}.7z
+  - ./bintray_upload.sh qa-*.7z
 
 matrix:
   include:
@@ -71,8 +71,10 @@ matrix:
     env:
       CMAKE_GENERATOR="Visual Studio 15 2017"
       QT_INSTALL_DIR=C:/Qt
+      DEPLOY=1
     before_install:
       - powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File windows_setup.ps1
+      - gem install bundler
     install:
       - choco install jom
       - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} --toolchain win32_msvc2017 ${QT_MODULES} qtwinextras
@@ -87,13 +89,16 @@ matrix:
       - ./build-otter.sh
       - VS_ARCH=x86 ./build-phantomjs-vs.bat
       - VS_ARCH=x86 ./build-examples-vs.bat
+      - ./create-qa-archive.sh qa-${TRAVIS_JOB_NUMBER}-msvc2017-x86.7z
   - name: "VS 2017 x86_64"
     os: windows
     env:
       CMAKE_GENERATOR="Visual Studio 15 2017 Win64"
       QT_INSTALL_DIR=C:/Qt
+      DEPLOY=1
     before_install:
       - powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File windows_setup.ps1
+      - gem install bundler
     install:
       - choco install jom
       - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} --toolchain win64_msvc2017_64 ${QT_MODULES} qtwinextras
@@ -108,6 +113,7 @@ matrix:
       - ./build-otter.sh
       - VS_ARCH=amd64 ./build-phantomjs-vs.bat
       - VS_ARCH=amd64 ./build-examples-vs.bat
+      - ./create-qa-archive.sh qa-${TRAVIS_JOB_NUMBER}-msvc2017-x86_64.7z
   - name: "MinGW 7.3 x86"
     os: windows
     env:
@@ -136,7 +142,7 @@ matrix:
       - ./build-otter.sh
       - ./build-phantomjs.sh
       - ./build-examples.sh
-      - ./create-qa-archive.sh
+      - ./create-qa-archive.sh qa-${TRAVIS_JOB_NUMBER}-mingw73-x86.7z
   - name: "Linux x86_64"
     os: linux
     env:
@@ -157,4 +163,4 @@ matrix:
       - ./build-otter.sh
       - ./build-phantomjs.sh
       - ./build-examples.sh
-      - ./create-qa-archive.sh
+      - ./create-qa-archive.sh qa-${TRAVIS_JOB_NUMBER}-linux-x86_64.7z
