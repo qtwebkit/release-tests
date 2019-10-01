@@ -136,6 +136,7 @@ matrix:
       - ./build-otter.sh
       - ./build-phantomjs.sh
       - ./build-examples.sh
+      - ./create-qa-archive.sh
   - name: "Linux x86_64"
     os: linux
     env:
@@ -156,3 +157,4 @@ matrix:
       - ./build-otter.sh
       - ./build-phantomjs.sh
       - ./build-examples.sh
+      - ./create-qa-archive.sh
