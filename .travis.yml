@@ -53,6 +53,7 @@ matrix:
     osx_image: xcode10.1
     env:
       CMAKE_GENERATOR=Ninja
+      DEPLOY=1
     install:
       - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} ${QT_MODULES} qtmacextras
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/clang_64"
@@ -66,6 +67,8 @@ matrix:
       - ./build-pyqt5.sh
       - ./build-otter.sh
       - ./build-phantomjs.sh
+      - ./build-examples.sh
+      - ./create-qa-archive.sh qa-${TRAVIS_JOB_NUMBER}-macOS-x86_64.7z
   - name: "VS 2017 x86"
     os: windows
     env:
