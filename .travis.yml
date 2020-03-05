@@ -26,7 +26,7 @@ env:
   global:
     - QT_VERSION=5.14.1
     - QTWEBKIT_BRANCH=5.212
-    - QTWEBKIT_BUILD_NUMBER=1583208605
+    - QTWEBKIT_BUILD_NUMBER=1583342509
     - QT_INSTALL_DIR=~/Qt
     - QT_MODULES="qtbase qtdeclarative qtlocation qtmultimedia qtsensors qtwebchannel qtsvg qtxmlpatterns"
     - HOST_N_CORES=2
