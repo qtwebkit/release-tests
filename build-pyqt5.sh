@@ -1,11 +1,9 @@
 #!/bin/sh -ex
 
-./build-sip.sh
+pip3 install sip
 
-PyQt5_VERSION="5.13.0"
-PyQt5_DIRNAME="PyQt5_gpl-${PyQt5_VERSION}"
+PyQt5_DIRNAME="PyQt5-${PyQt5_VERSION}"
 PyQt5_ARCHIVE="${PyQt5_DIRNAME}.tar.gz"
-
 curl --progress-bar -L -OJ https://www.riverbankcomputing.com/static/Downloads/PyQt5/$PyQt5_VERSION/$PyQt5_ARCHIVE
 tar xf $PyQt5_ARCHIVE
 cd $PyQt5_DIRNAME
