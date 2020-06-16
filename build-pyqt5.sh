@@ -20,7 +20,9 @@ python3 configure.py --qmake $(which qmake) --bindir=$QTDIR/bin --confirm-licens
     --disable=QtSvg \
     --disable=QtPositioning \
     --disable=QtWebChannel \
-    --disable=QtLocation
+    --disable=QtLocation \
+    --disable=QtQml \
+    --disable=QtQuick
 make -j $HOST_N_CORES
 sudo make install
 cd ..
