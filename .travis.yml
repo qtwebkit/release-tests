@@ -83,7 +83,7 @@ matrix:
       - gem install bundler
     install:
       - choco install jom python
-      - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} --toolchain win32_msvc2017 ${QT_MODULES} qtwinextras
+      - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} --toolchain win32_msvc2017 ${QT_MODULES} qtwinextras qttools
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/msvc2017"
       - export QT_QPA_PLATFORM_PLUGIN_PATH="$(cygpath -u $QTDIR/plugins)"
       - export PATH="$(cygpath -u ${QTDIR})/bin:$PATH"
@@ -107,7 +107,7 @@ matrix:
       - gem install bundler
     install:
       - choco install jom python
-      - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} --toolchain win64_msvc2017_64 ${QT_MODULES} qtwinextras
+      - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} --toolchain win64_msvc2017_64 ${QT_MODULES} qtwinextras qttools
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/msvc2017_64"
       - export QT_QPA_PLATFORM_PLUGIN_PATH="$(cygpath -u $QTDIR/plugins)"
       - export PATH="$(cygpath -u ${QTDIR})/bin:$PATH"
@@ -133,7 +133,7 @@ matrix:
       - gem install bundler
     install:
       - choco install python
-      - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} --toolchain win32_mingw73 ${QT_MODULES} qtwinextras
+      - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} --toolchain win32_mingw73 ${QT_MODULES} qtwinextras qttools
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/mingw73_32"
       - export QT_QPA_PLATFORM_PLUGIN_PATH="$(cygpath -u $QTDIR/plugins)"
       - export PATH="$(cygpath -u ${QTDIR})/bin:$PATH"
