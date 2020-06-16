@@ -88,6 +88,7 @@ matrix:
       - export QT_QPA_PLATFORM_PLUGIN_PATH="$(cygpath -u $QTDIR/plugins)"
       - export PATH="$(cygpath -u ${QTDIR})/bin:$PATH"
       - ./install-qtwebkit Windows_10-MSVC2017-Windows-Windows_10-X86
+      - rm $QTDIR/plugins/position/qtposition_serialnmea*
     before_script:
       - du -hs $QTDIR
       - qmake -query
@@ -112,6 +113,7 @@ matrix:
       - export QT_QPA_PLATFORM_PLUGIN_PATH="$(cygpath -u $QTDIR/plugins)"
       - export PATH="$(cygpath -u ${QTDIR})/bin:$PATH"
       - ./install-qtwebkit Windows_10-MSVC2017-Windows-Windows_10-X86_64
+      - rm $QTDIR/plugins/position/qtposition_serialnmea*
     before_script:
       - du -hs $QTDIR
       - qmake -query
@@ -140,6 +142,7 @@ matrix:
       - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version 7.3.0 win32_mingw730
       - export PATH="$(cygpath -u ${QT_INSTALL_DIR})/Tools/mingw730_32/bin:$PATH"
       - ./install-qtwebkit Windows_7-Mingw73-Windows-Windows_7-X86
+      - rm $QTDIR/plugins/position/qtposition_serialnmea*
     before_script:
       - du -hs $QTDIR
       - qmake -query
