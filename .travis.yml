@@ -83,7 +83,7 @@ matrix:
       - powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File windows_setup.ps1
       - gem install bundler
     install:
-      - choco install jom python
+      - choco install jom python innosetup
       - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} --toolchain win32_msvc2017 ${QT_MODULES} qtwinextras qttools
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/msvc2017"
       - export QT_QPA_PLATFORM_PLUGIN_PATH="$(cygpath -u $QTDIR/plugins)"
@@ -108,7 +108,7 @@ matrix:
       - powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File windows_setup.ps1
       - gem install bundler
     install:
-      - choco install jom python
+      - choco install jom python innosetup
       - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} --toolchain win64_msvc2017_64 ${QT_MODULES} qtwinextras qttools
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/msvc2017_64"
       - export QT_QPA_PLATFORM_PLUGIN_PATH="$(cygpath -u $QTDIR/plugins)"
@@ -135,7 +135,7 @@ matrix:
       - powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File windows_setup.ps1
       - gem install bundler
     install:
-      - choco install python
+      - choco install python innosetup
       - 3rdparty/install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} --toolchain win32_mingw73 ${QT_MODULES} qtwinextras qttools
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/mingw73_32"
       - export QT_QPA_PLATFORM_PLUGIN_PATH="$(cygpath -u $QTDIR/plugins)"
