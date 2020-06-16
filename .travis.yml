@@ -48,6 +48,7 @@ deploy:
 
 after_deploy:
   - ./bintray_upload.sh qa-*.7z
+  - ./bintray_upload.sh otter-browser-packages/*
 
 matrix:
   include:
