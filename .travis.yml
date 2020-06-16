@@ -166,6 +166,7 @@ matrix:
       - export PATH="$QTDIR/bin:$PATH"
       - export LD_LIBRARY_PATH=$QTDIR/lib
       - ./install-qtwebkit RHEL_7_6-GCC-Linux-RHEL_7_6-X86_64
+      - rm $QTDIR/plugins/position/libqtposition_serialnmea*
     before_script:
       - du -hs $QTDIR
       - qmake -query
