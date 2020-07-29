@@ -14,6 +14,7 @@ addons:
       - libgl1-mesa-dev
       - libgstreamer-plugins-base1.0-0
       - libpulse-mainloop-glib0
+      - libxkbcommon-x11-0
       - python3-pip
       - python3-setuptools
   homebrew:
@@ -26,7 +27,7 @@ addons:
 env:
   global:
     - QT_VERSION=5.14.1
-    - PyQt5_VERSION=5.13.2
+    - PyQt5_VERSION=5.14.1
     - QTWEBKIT_BRANCH=5.212
     - QTWEBKIT_BUILD_NUMBER=1584941372
     - QT_INSTALL_DIR=~/Qt
@@ -47,6 +48,7 @@ deploy:
 
 after_deploy:
   - ./bintray_upload.sh qa-*.7z
+  - ./bintray_upload.sh otter-browser-packages/*
 
 matrix:
   include:
@@ -87,7 +89,7 @@ matrix:
       - powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File windows_setup.ps1
       - gem install bundler
     install:
-      - choco install jom python3
+      - choco install jom python3 innosetup
       - py -m pip install requests semantic_version lxml
       - py 3rdparty/qt-downloader windows desktop ${QT_VERSION} ${TOOLCHAIN} --output=${QT_INSTALL_DIR} --qt_modules="${QT_MODULES} qtwinextras"
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/msvc2017"
@@ -95,6 +97,7 @@ matrix:
       - export PATH="$(cygpath -u ${QTDIR})/bin:$PATH"
       - 3rdparty/license_writer.sh
       - ./install-qtwebkit Windows_10-MSVC2017-Windows-Windows_10-X86
+      - rm $QTDIR/plugins/position/qtposition_serialnmea*
     before_script:
       - du -hs $QTDIR
       - qmake -query
@@ -114,7 +117,7 @@ matrix:
       - powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File windows_setup.ps1
       - gem install bundler
     install:
-      - choco install jom python3
+      - choco install jom python3 innosetup
       - py -m pip install requests semantic_version lxml
       - py 3rdparty/qt-downloader windows desktop ${QT_VERSION} ${TOOLCHAIN} --output=${QT_INSTALL_DIR} --qt_modules="${QT_MODULES} qtwinextras"
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/msvc2017_64"
@@ -122,6 +125,7 @@ matrix:
       - export PATH="$(cygpath -u ${QTDIR})/bin:$PATH"
       - 3rdparty/license_writer.sh
       - ./install-qtwebkit Windows_10-MSVC2017-Windows-Windows_10-X86_64
+      - rm $QTDIR/plugins/position/qtposition_serialnmea*
     before_script:
       - du -hs $QTDIR
       - qmake -query
@@ -143,7 +147,7 @@ matrix:
       - powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File windows_setup.ps1
       - gem install bundler
     install:
-      - choco install python3
+      - choco install python3 innosetup
       - py -m pip install requests semantic_version lxml
       - py 3rdparty/qt-downloader windows desktop ${QT_VERSION} ${TOOLCHAIN} --output=${QT_INSTALL_DIR} --qt_modules="${QT_MODULES} qtwinextras" --mingw win32_mingw730
       - ls -R ${QT_INSTALL_DIR}/Tools/
@@ -153,6 +157,7 @@ matrix:
       - export PATH="$(cygpath -u ${QTDIR})/bin:$PATH"
       - 3rdparty/license_writer.sh
       - ./install-qtwebkit Windows_7-Mingw73-Windows-Windows_7-X86
+      - rm $QTDIR/plugins/position/qtposition_serialnmea*
     before_script:
       - du -hs $QTDIR
       - qmake -query
@@ -180,6 +185,7 @@ matrix:
       - chmod a+x 3rdparty/license_writer.sh
       - 3rdparty/license_writer.sh
       - ./install-qtwebkit RHEL_7_6-GCC-Linux-RHEL_7_6-X86_64
+      - rm $QTDIR/plugins/position/libqtposition_serialnmea*
     before_script:
       - du -hs $QTDIR
       - qmake -query
