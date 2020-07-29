@@ -91,7 +91,7 @@ matrix:
     install:
       - choco install jom python3 innosetup
       - py -m pip install requests semantic_version lxml
-      - py 3rdparty/qt-downloader windows desktop ${QT_VERSION} ${TOOLCHAIN} --output=${QT_INSTALL_DIR} --qt_modules="${QT_MODULES} qtwinextras"
+      - py 3rdparty/qt-downloader windows desktop ${QT_VERSION} ${TOOLCHAIN} --output=${QT_INSTALL_DIR} --qt_modules="${QT_MODULES} qtwinextras" --openssl=openssl_x86
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/msvc2017"
       - export QT_QPA_PLATFORM_PLUGIN_PATH="$(cygpath -u $QTDIR/plugins)"
       - export PATH="$(cygpath -u ${QTDIR})/bin:$PATH"
@@ -119,7 +119,7 @@ matrix:
     install:
       - choco install jom python3 innosetup
       - py -m pip install requests semantic_version lxml
-      - py 3rdparty/qt-downloader windows desktop ${QT_VERSION} ${TOOLCHAIN} --output=${QT_INSTALL_DIR} --qt_modules="${QT_MODULES} qtwinextras"
+      - py 3rdparty/qt-downloader windows desktop ${QT_VERSION} ${TOOLCHAIN} --output=${QT_INSTALL_DIR} --qt_modules="${QT_MODULES} qtwinextras" --openssl=openssl_x64
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/msvc2017_64"
       - export QT_QPA_PLATFORM_PLUGIN_PATH="$(cygpath -u $QTDIR/plugins)"
       - export PATH="$(cygpath -u ${QTDIR})/bin:$PATH"
