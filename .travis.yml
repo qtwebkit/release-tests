@@ -66,7 +66,6 @@ matrix:
       - export QT_QPA_PLATFORM_PLUGIN_PATH=$QTDIR/plugins
       - export PATH="$QTDIR/bin:$PATH"
       - ls 3rdparty
-      - chmod a+x 3rdparty/license_writer.sh
       - 3rdparty/license_writer.sh
       - ./install-qtwebkit MacOS_10_13-Clang-MacOS-MacOS_10_13-X86_64
     before_script:
@@ -182,7 +181,6 @@ matrix:
       - export PATH="$QTDIR/bin:$PATH"
       - export LD_LIBRARY_PATH=$QTDIR/lib
       - ls 3rdparty
-      - chmod a+x 3rdparty/license_writer.sh
       - 3rdparty/license_writer.sh
       - ./install-qtwebkit RHEL_7_6-GCC-Linux-RHEL_7_6-X86_64
       - rm $QTDIR/plugins/position/libqtposition_serialnmea*
