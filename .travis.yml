@@ -95,6 +95,8 @@ matrix:
       - export QT_QPA_PLATFORM_PLUGIN_PATH="$(cygpath -u $QTDIR/plugins)"
       - export PATH="$(cygpath -u ${QTDIR})/bin:$PATH"
       - 3rdparty/license_writer.sh
+      - export OPENSSL_PREFIX="${QT_INSTALL_DIR}/Tools/OpenSSL/Win_x86/bin"
+      - export OTTER_DEPLOY_ARGS="--extra-libs ${OPENSSL_PREFIX}/libssl-1_1.dll ${OPENSSL_PREFIX}/libcrypto-1_1.dll"
       - ./install-qtwebkit Windows_10-MSVC2017-Windows-Windows_10-X86
       - rm $QTDIR/plugins/position/qtposition_serialnmea*
     before_script:
@@ -123,6 +125,8 @@ matrix:
       - export QT_QPA_PLATFORM_PLUGIN_PATH="$(cygpath -u $QTDIR/plugins)"
       - export PATH="$(cygpath -u ${QTDIR})/bin:$PATH"
       - 3rdparty/license_writer.sh
+      - export OPENSSL_PREFIX="${QT_INSTALL_DIR}/Tools/OpenSSL/Win_x64/bin"
+      - export OTTER_DEPLOY_ARGS="--extra-libs ${OPENSSL_PREFIX}/libssl-1_1-x64.dll ${OPENSSL_PREFIX}/libcrypto-1_1-x64.dll"
       - ./install-qtwebkit Windows_10-MSVC2017-Windows-Windows_10-X86_64
       - rm $QTDIR/plugins/position/qtposition_serialnmea*
     before_script:
@@ -155,6 +159,8 @@ matrix:
       - export QT_QPA_PLATFORM_PLUGIN_PATH="$(cygpath -u $QTDIR/plugins)"
       - export PATH="$(cygpath -u ${QTDIR})/bin:$PATH"
       - 3rdparty/license_writer.sh
+      - export OPENSSL_PREFIX="${QT_INSTALL_DIR}/Tools/mingw730_32/opt/bin"
+      - export OTTER_DEPLOY_ARGS="--extra-libs ${OPENSSL_PREFIX}/ssleay32.dll ${OPENSSL_PREFIX}/libeay32.dll"
       - ./install-qtwebkit Windows_7-Mingw73-Windows-Windows_7-X86
       - rm $QTDIR/plugins/position/qtposition_serialnmea*
     before_script:
