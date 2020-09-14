@@ -137,7 +137,7 @@ matrix:
       - VS_ARCH=amd64 ./build-phantomjs-vs.bat
       - VS_ARCH=amd64 ./build-examples-vs.bat
       - ./create-qa-archive.sh qa-${TRAVIS_JOB_NUMBER}-msvc2017-x86_64.7z
-  - name: "MinGW 7.3 x86"
+  - name: "MinGW 8.1 x86"
     os: windows
     env:
       CMAKE_GENERATOR="MSYS Makefiles"
@@ -145,23 +145,23 @@ matrix:
       QT_INSTALL_DIR=C:/Qt
       MAKE=mingw32-make
       DEPLOY=1
-      TOOLCHAIN=win32_mingw73
+      TOOLCHAIN=win32_mingw81
     before_install:
       - powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File windows_setup.ps1
       - gem install bundler
     install:
       - choco install python3 innosetup
       - py -m pip install requests semantic_version lxml
-      - py 3rdparty/qt-downloader windows desktop ${QT_VERSION} ${TOOLCHAIN} --output=${QT_INSTALL_DIR} --qt_modules="${QT_MODULES} qtwinextras qttools" --mingw win32_mingw730
+      - py 3rdparty/qt-downloader windows desktop ${QT_VERSION} ${TOOLCHAIN} --output=${QT_INSTALL_DIR} --qt_modules="${QT_MODULES} qtwinextras qttools" --mingw win32_mingw810
       - ls -R ${QT_INSTALL_DIR}/Tools/
-      - export PATH="$(cygpath -u ${QT_INSTALL_DIR})/Tools/mingw730_32/bin:$PATH"
-      - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/mingw73_32"
+      - export PATH="$(cygpath -u ${QT_INSTALL_DIR})/Tools/mingw810_32/bin:$PATH"
+      - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/mingw81_32"
       - export QT_QPA_PLATFORM_PLUGIN_PATH="$(cygpath -u $QTDIR/plugins)"
       - export PATH="$(cygpath -u ${QTDIR})/bin:$PATH"
       - 3rdparty/license_writer.sh
-      - export OPENSSL_PREFIX="${QT_INSTALL_DIR}/Tools/mingw730_32/opt/bin"
+      - export OPENSSL_PREFIX="${QT_INSTALL_DIR}/Tools/mingw810_32/opt/bin"
       - export OTTER_DEPLOY_ARGS="--extra-libs ${OPENSSL_PREFIX}/ssleay32.dll ${OPENSSL_PREFIX}/libeay32.dll"
-      - ./install-qtwebkit Windows_7-Mingw73-Windows-Windows_7-X86
+      - ./install-qtwebkit Windows_7-Mingw-Windows-Windows_7-X86
       - rm $QTDIR/plugins/position/qtposition_serialnmea*
     before_script:
       - du -hs $QTDIR
@@ -172,7 +172,7 @@ matrix:
       - ./build-otter.sh
       - ./build-phantomjs.sh
       - ./build-examples.sh
-      - ./create-qa-archive.sh qa-${TRAVIS_JOB_NUMBER}-mingw73-x86.7z
+      - ./create-qa-archive.sh qa-${TRAVIS_JOB_NUMBER}-mingw81-x86.7z
   - name: "Linux x86_64"
     os: linux
     env:
