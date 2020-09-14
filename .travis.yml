@@ -83,7 +83,7 @@ matrix:
       CMAKE_GENERATOR="Visual Studio 15 2017"
       QT_INSTALL_DIR=C:/Qt
       DEPLOY=1
-      TOOLCHAIN=win32_msvc2017
+      TOOLCHAIN=win32_msvc2019
     before_install:
       - powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File windows_setup.ps1
       - gem install bundler
@@ -91,13 +91,13 @@ matrix:
       - choco install jom python3 innosetup
       - py -m pip install requests semantic_version lxml
       - py 3rdparty/qt-downloader windows desktop ${QT_VERSION} ${TOOLCHAIN} --output=${QT_INSTALL_DIR} --qt_modules="${QT_MODULES} qtwinextras qttools" --openssl=openssl_x86
-      - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/msvc2017"
+      - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/msvc2019"
       - export QT_QPA_PLATFORM_PLUGIN_PATH="$(cygpath -u $QTDIR/plugins)"
       - export PATH="$(cygpath -u ${QTDIR})/bin:$PATH"
       - 3rdparty/license_writer.sh
       - export OPENSSL_PREFIX="${QT_INSTALL_DIR}/Tools/OpenSSL/Win_x86/bin"
       - export OTTER_DEPLOY_ARGS="--extra-libs ${OPENSSL_PREFIX}/libssl-1_1.dll ${OPENSSL_PREFIX}/libcrypto-1_1.dll"
-      - ./install-qtwebkit Windows_10-MSVC2017-Windows-Windows_10-X86
+      - ./install-qtwebkit Windows_10-MSVC2019-Windows-Windows_10-X86
       - rm $QTDIR/plugins/position/qtposition_serialnmea*
     before_script:
       - du -hs $QTDIR
@@ -113,7 +113,7 @@ matrix:
       CMAKE_GENERATOR="Visual Studio 15 2017 Win64"
       QT_INSTALL_DIR=C:/Qt
       DEPLOY=1
-      TOOLCHAIN=win64_msvc2017_64
+      TOOLCHAIN=win64_msvc2019_64
     before_install:
       - powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File windows_setup.ps1
       - gem install bundler
@@ -121,13 +121,13 @@ matrix:
       - choco install jom python3 innosetup
       - py -m pip install requests semantic_version lxml
       - py 3rdparty/qt-downloader windows desktop ${QT_VERSION} ${TOOLCHAIN} --output=${QT_INSTALL_DIR} --qt_modules="${QT_MODULES} qtwinextras qttools" --openssl=openssl_x64
-      - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/msvc2017_64"
+      - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/msvc2019_64"
       - export QT_QPA_PLATFORM_PLUGIN_PATH="$(cygpath -u $QTDIR/plugins)"
       - export PATH="$(cygpath -u ${QTDIR})/bin:$PATH"
       - 3rdparty/license_writer.sh
       - export OPENSSL_PREFIX="${QT_INSTALL_DIR}/Tools/OpenSSL/Win_x64/bin"
       - export OTTER_DEPLOY_ARGS="--extra-libs ${OPENSSL_PREFIX}/libssl-1_1-x64.dll ${OPENSSL_PREFIX}/libcrypto-1_1-x64.dll"
-      - ./install-qtwebkit Windows_10-MSVC2017-Windows-Windows_10-X86_64
+      - ./install-qtwebkit Windows_10-MSVC2019-Windows-Windows_10-X86_64
       - rm $QTDIR/plugins/position/qtposition_serialnmea*
     before_script:
       - du -hs $QTDIR
