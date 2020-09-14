@@ -17,4 +17,4 @@ rm -rf $QTDIR/mkspecs
 rm -rf $QTDIR/lib/cmake
 rm -rf $QTDIR/lib/pkgconfig
 rm -rf $QTDIR/debug
-7z a -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on $ARCHIVE $QTDIR
+7z a -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on $ARCHIVE $QTDIR otter-browser-packages
