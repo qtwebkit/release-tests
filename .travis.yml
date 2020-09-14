@@ -162,15 +162,15 @@ matrix:
     install:
       - choco install python3 innosetup
       - py -m pip install requests semantic_version lxml
-      - py 3rdparty/qt-downloader windows desktop ${QT_VERSION} ${TOOLCHAIN} --output=${QT_INSTALL_DIR} --qt_modules="${QT_MODULES} qtwinextras qttools" --mingw win32_mingw810
+      - py 3rdparty/qt-downloader windows desktop ${QT_VERSION} ${TOOLCHAIN} --output=${QT_INSTALL_DIR} --qt_modules="${QT_MODULES} qtwinextras qttools" --mingw win32_mingw810 --openssl=openssl_x86
       - ls -R ${QT_INSTALL_DIR}/Tools/
       - export PATH="$(cygpath -u ${QT_INSTALL_DIR})/Tools/mingw810_32/bin:$PATH"
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/mingw81_32"
       - export QT_QPA_PLATFORM_PLUGIN_PATH="$(cygpath -u $QTDIR/plugins)"
       - export PATH="$(cygpath -u ${QTDIR})/bin:$PATH"
       - 3rdparty/license_writer.sh
-      - export OPENSSL_PREFIX="${QT_INSTALL_DIR}/Tools/mingw810_32/opt/bin"
-      - export OTTER_DEPLOY_ARGS="--extra-libs ${OPENSSL_PREFIX}/ssleay32.dll ${OPENSSL_PREFIX}/libeay32.dll"
+      - export OPENSSL_PREFIX="${QT_INSTALL_DIR}/Tools/OpenSSL/Win_x86/bin"
+      - export OTTER_DEPLOY_ARGS="--extra-libs ${OPENSSL_PREFIX}/libssl-1_1.dll ${OPENSSL_PREFIX}/libcrypto-1_1.dll"
       - ./install-qtwebkit Windows_7-Mingw-Windows-Windows_7-X86
       - rm $QTDIR/plugins/position/qtposition_serialnmea*
     before_script:
