@@ -38,7 +38,7 @@ parser.add_argument("--template", help='Relative path to template file',
                     default="template/QtBinaryChecklist.txt")
 parser.add_argument("--release", help='Release build', action='store_true')
 parser.add_argument("--debug", help='Debug build', action='store_true')
-parser.add_argument("--qt_install_header", help='Qt headers install path')
+parser.add_argument("--qt_install_headers", help='Qt headers install path')
 parser.add_argument("--qt_install_libs", help='Qt libraries install path')
 parser.add_argument("--qt_install_archdata", help='Qt archdata install path')
 parser.add_argument("--qt_install_libexecs", help='Qt libexecs install path')
@@ -70,7 +70,7 @@ check_list = template.render(os=args.os,
                              icu_version=args.icu_version, force_debug_info=args.force_debug_info, toolchain=args.toolchain).split('\n')
 
 
-def verify_linux(check_list):
+def custom_args_verify(check_list):
     error_list = []
 
     for line in check_list:
@@ -78,7 +78,7 @@ def verify_linux(check_list):
             line = line.lstrip()
             if line.startswith('include/'):
                 chk_path = os.path.join(
-                    args.qt_install_header, line[len('include/'):])
+                    args.qt_install_headers, line[len('include/'):])
             elif line.startswith('lib/'):
                 chk_path = os.path.join(
                     args.qt_install_libs, line[len('lib/'):])
@@ -94,7 +94,7 @@ def verify_linux(check_list):
     return error_list
 
 
-def verify_windows_mac(check_list):
+def default_verify(check_list):
     error_list = []
 
     for line in check_list:
@@ -106,11 +106,11 @@ def verify_windows_mac(check_list):
 
     return error_list
 
+if not args.qt_install_headers and not args.install_prefix:
+    print("Specify either the install prefix or custom locations")
+    exit(1)
 
-if args.os == 'linux':
-    res = verify_linux(check_list)
-elif args.os == 'windows' or args.os == 'macos':
-    res = verify_windows_mac(check_list)
+res = custom_args_verify(check_list) if args.qt_install_headers else default_verify(check_list)
 
 if len(res) != 0:
     print("Errors found files below are missing:")

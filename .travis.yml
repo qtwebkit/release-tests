@@ -182,7 +182,7 @@ matrix:
       - qmake -query
       - g++ -v
       - mingw32-make --version
-      - py installed-files-checker.py --os=windows --toolchain=mingw --install_prefix=${QTDIR} --release --debug ${INSTALL_FILE_CHECKER_ARGS}
+      - py installed-files-checker.py --os=windows --toolchain=mingw --install_prefix=${QTDIR} --release ${INSTALL_FILE_CHECKER_ARGS}
     script:
       - ./build-otter.sh
       - ./build-phantomjs.sh
