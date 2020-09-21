@@ -26,6 +26,9 @@
     include/QtWebKit/{{version}}/QtWebKit/private/qwebpreferences_p_p.h
     include/QtWebKit/{{version}}/QtWebKit/private/qwebscriptworld_p.h
     include/QtWebKit/{{version}}/QtWebKit/private/qwebsecurityorigin_p.h
+    qml/QtWebKit/plugins.qmltypes
+    qml/QtWebKit/qmldir
+    qml/QtWebKit/experimental/qmldir
 {% endif %}
 include/QtWebKit/QWebDatabase
 include/QtWebKit/QWebElement
@@ -89,9 +92,6 @@ mkspecs/modules/qt_lib_webkit.pri
 mkspecs/modules/qt_lib_webkit_private.pri
 mkspecs/modules/qt_lib_webkitwidgets.pri
 mkspecs/modules/qt_lib_webkitwidgets_private.pri
-qml/QtWebKit/plugins.qmltypes
-qml/QtWebKit/qmldir
-qml/QtWebKit/experimental/qmldir
 
 {% if release %}
     lib/cmake/Qt5WebKit/WebKitTargets-release.cmake
@@ -191,9 +191,11 @@ qml/QtWebKit/experimental/qmldir
     bin/icudt{{icu_version}}.dll
     bin/icuin{{icu_version}}.dll
     bin/icuuc{{icu_version}}.dll
-    bin/QtWebNetworkProcess.exe
-    bin/QtWebProcess.exe
-    bin/QtWebStorageProcess.exe
+    {% if wk2 %}
+        bin/QtWebNetworkProcess.exe
+        bin/QtWebProcess.exe
+        bin/QtWebStorageProcess.exe
+    {% endif %}
 
     {% if toolchain=="msvc" %}
         bin/libxml2.dll
@@ -251,11 +253,13 @@ qml/QtWebKit/experimental/qmldir
 
 
 {% if os=="linux" or os=="macos" %}
-    libexec/QtWebNetworkProcess
-    libexec/QtWebProcess
-    libexec/QtWebStorageProcess
-    qml/QtWebKit/experimental/libqmlwebkitexperimentalplugin.so
-    qml/QtWebKit/libqmlwebkitplugin.so
+    {% if wk2 %}
+        libexec/QtWebNetworkProcess
+        libexec/QtWebProcess
+        libexec/QtWebStorageProcess
+        qml/QtWebKit/experimental/libqmlwebkitexperimentalplugin.so
+        qml/QtWebKit/libqmlwebkitplugin.so
+    {% endif %}
 {% endif %}
 
 {% if os=="linux" or os=="windows" %}
