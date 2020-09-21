@@ -40,7 +40,7 @@ env:
     - QT_VERSION=5.15.1
     - PyQt5_VERSION=5.15.1
     - QTWEBKIT_BRANCH=5.212
-    - QTWEBKIT_BUILD_NUMBER=1600126303
+    - QTWEBKIT_BUILD_NUMBER=1600710104
     - QT_INSTALL_DIR=~/Qt
     - QT_MODULES="qtbase qtdeclarative qtlocation qtmultimedia qtsensors qtwebchannel qtsvg qtxmlpatterns qttools"
     - HOST_N_CORES=2
