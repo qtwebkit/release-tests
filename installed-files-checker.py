@@ -49,7 +49,7 @@ parser.add_argument(
     "--toolchain", help='Toolchain used e.g. msvc, mingw for windows')
 parser.add_argument("-v", "--verbose", action='store_true',
                     help='Print paths of checked files')
-parser.add_argument("--no-wk2", action="store_false",
+parser.add_argument("--no-wk2", action="store_false", dest="wk2",
                     help='Disable wk2 specific files')
 
 args = parser.parse_args()
@@ -71,7 +71,7 @@ major, minor, patch = args.version.split('.')
 
 check_list = template.render(os=args.os,
                              major=major, version=args.version, release=args.release, debug=args.debug,
-                             icu_version=args.icu_version, wk2=args.no_wk2,
+                             icu_version=args.icu_version, wk2=args.wk2,
                              force_debug_info=args.force_debug_info, toolchain=args.toolchain).split('\n')
 
 
