@@ -47,7 +47,10 @@ parser.add_argument("--force_debug_info",
 parser.add_argument("--icu_version", help='ICU version')
 parser.add_argument(
     "--toolchain", help='Toolchain used e.g. msvc, mingw for windows')
-parser.add_argument("-v","--verbose", action='store_true', help='Print paths of checked files')
+parser.add_argument("-v", "--verbose", action='store_true',
+                    help='Print paths of checked files')
+parser.add_argument("--no-wk2", action="store_false",
+                    help='Disable wk2 specific files')
 
 args = parser.parse_args()
 
@@ -68,10 +71,13 @@ major, minor, patch = args.version.split('.')
 
 check_list = template.render(os=args.os,
                              major=major, version=args.version, release=args.release, debug=args.debug,
-                             icu_version=args.icu_version, force_debug_info=args.force_debug_info, toolchain=args.toolchain).split('\n')
+                             icu_version=args.icu_version, wk2=args.no_wk2,
+                             force_debug_info=args.force_debug_info, toolchain=args.toolchain).split('\n')
+
 
 def print_error(msg):
     print(msg, file=sys.stderr)
+
 
 def custom_args_verify(check_list):
     error_list = []
@@ -97,6 +103,11 @@ def custom_args_verify(check_list):
 
             if not os.path.exists(chk_path):
                 error_list.append(chk_path)
+                if args.verbose:
+                    print(line, "\t", "fail")
+            else:
+                if args.verbose:
+                    print(line, "\t", "ok")
 
     return error_list
 
@@ -108,20 +119,24 @@ def default_verify(check_list):
         if line.rstrip():
             line = line.lstrip()
 
-            if args.verbose:
-                print(line)
-
             chk_path = os.path.join(args.install_prefix, line)
             if not os.path.exists(chk_path):
                 error_list.append(chk_path)
+                if args.verbose:
+                    print(line, "\t", "fail")
+            else:
+                if args.verbose:
+                    print(line, "\t", "ok")
 
     return error_list
 
+
 if not args.qt_install_headers and not args.install_prefix:
-    print("Specify either the install prefix or custom locations")
+    print_error("Specify either the install prefix or custom locations")
     exit(1)
 
-res = custom_args_verify(check_list) if args.qt_install_headers else default_verify(check_list)
+res = custom_args_verify(
+    check_list) if args.qt_install_headers else default_verify(check_list)
 
 if len(res) != 0:
     print_error("Errors found files below are missing:")
