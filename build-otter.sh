@@ -26,5 +26,5 @@ if which py >& /dev/null; then
 fi
 
 mkdir otter-browser-packages
-$PYTHON otter-browser/packaging/deploy.py --build-path=$BUILD_DIR --target-path=otter-browser-packages $OTTER_DEPLOY_ARGS
+$PYTHON otter-browser/packaging/deploy.py --enable-portable --preserve-deployment-directory --build-path=$BUILD_DIR --target-path=otter-browser-packages $OTTER_DEPLOY_ARGS
 find otter-browser-packages
