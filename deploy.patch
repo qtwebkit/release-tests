@@ -1,0 +1,25 @@
+diff --git a/packaging/deploy.py b/packaging/deploy.py
+index a0ec11bc8..c36420c16 100755
+--- a/packaging/deploy.py
++++ b/packaging/deploy.py
+@@ -198,15 +198,15 @@ def deploy_windows(arguments):
+ 		with open(os.path.join(target_release_path, 'arguments.txt'), 'w') as file:
+ 			file.write('--portable')
+ 
+-	if seven_z_command != None:
+-		run_command([seven_z_command, 'a', '{}.7z'.format(os.path.join(arguments.target_path, release_name)), target_release_path])
+-
+-	run_command(['powershell', 'Compress-Archive', '"{}"'.format(target_release_path), '"{}.zip"'.format(os.path.join(arguments.target_path, release_name))])
++#	if seven_z_command != None:
++#		run_command([seven_z_command, 'a', '{}.7z'.format(os.path.join(arguments.target_path, release_name)), target_release_path])
++#
++#	run_command(['powershell', 'Compress-Archive', '"{}"'.format(target_release_path), '"{}.zip"'.format(os.path.join(arguments.target_path, release_name))])
+ 
+ 	if not arguments.preserve_deployment_directory:
+ 		shutil.rmtree(target_release_path)
+ 
+-	shutil.copy(os.path.join(arguments.build_path, 'otter-browser.pdb'), os.path.join(arguments.target_path, release_name + '.pdb'))
++	#shutil.copy(os.path.join(arguments.build_path, 'otter-browser.pdb'), os.path.join(arguments.target_path, release_name + '.pdb'))
+ 
+ if __name__ == '__main__':
+ 	parser = argparse.ArgumentParser(description='Otter Browser deployment tool.')
