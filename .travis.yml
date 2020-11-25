@@ -106,7 +106,7 @@ matrix:
       - choco install jom innosetup
       - choco install python --version=$PYTHON_VERSION
       - py -m pip install requests semantic_version lxml jinja2
-      - py 3rdparty/qt-downloader windows desktop ${QT_VERSION} ${TOOLCHAIN} --output=${QT_INSTALL_DIR} --qt_modules="${QT_MODULES} qtwinextras" --openssl=openssl_x86
+      - py 3rdparty/qt-downloader windows desktop ${QT_VERSION} ${TOOLCHAIN} --output=${QT_INSTALL_DIR} --qt_modules="${QT_MODULES} qtwinextras" --openssl=openssl
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/msvc2019"
       - export QT_QPA_PLATFORM_PLUGIN_PATH="$(cygpath -u $QTDIR/plugins)"
       - export PATH="$(cygpath -u ${QTDIR})/bin:$PATH"
@@ -140,7 +140,7 @@ matrix:
       - choco install jom innosetup
       - choco install python --version=$PYTHON_VERSION
       - py -m pip install requests semantic_version lxml jinja2
-      - py 3rdparty/qt-downloader windows desktop ${QT_VERSION} ${TOOLCHAIN} --output=${QT_INSTALL_DIR} --qt_modules="${QT_MODULES} qtwinextras" --openssl=openssl_x64
+      - py 3rdparty/qt-downloader windows desktop ${QT_VERSION} ${TOOLCHAIN} --output=${QT_INSTALL_DIR} --qt_modules="${QT_MODULES} qtwinextras" --openssl
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/msvc2019_64"
       - export QT_QPA_PLATFORM_PLUGIN_PATH="$(cygpath -u $QTDIR/plugins)"
       - export PATH="$(cygpath -u ${QTDIR})/bin:$PATH"
@@ -174,7 +174,7 @@ matrix:
       - choco install innosetup
       - choco install python --version=$PYTHON_VERSION
       - py -m pip install requests semantic_version lxml jinja2
-      - py 3rdparty/qt-downloader windows desktop ${QT_VERSION} ${TOOLCHAIN} --output=${QT_INSTALL_DIR} --qt_modules="${QT_MODULES} qtwinextras" --mingw win32_mingw810 --openssl=openssl_x86
+      - py 3rdparty/qt-downloader windows desktop ${QT_VERSION} ${TOOLCHAIN} --output=${QT_INSTALL_DIR} --qt_modules="${QT_MODULES} qtwinextras" --mingw --openssl
       - ls -R ${QT_INSTALL_DIR}/Tools/
       - export PATH="$(cygpath -u ${QT_INSTALL_DIR})/Tools/mingw810_32/bin:$PATH"
       - export QTDIR="${QT_INSTALL_DIR}/${QT_VERSION}/mingw81_32"
